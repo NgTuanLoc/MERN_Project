@@ -37,3 +37,10 @@ packages/react-devtools-extensions/.tempUserDataDir
 packages/react-devtools-inline/dist
 packages/react-devtools-shell/dist
 packages/react-devtools-scheduling-profiler/dist
+
+# misc
+.env
+.env.local
+.env.test.local
+.env.developement.local
+.env.production.local
