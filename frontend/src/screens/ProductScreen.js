@@ -1,11 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((item) => item._id === match.params.id);
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, []);
+
   return (
     <Fragment>
       <Link to="/" className="btn btn-light my-3">
@@ -31,26 +39,30 @@ const ProductScreen = ({ match }) => {
           </ListGroup>
         </Col>
         <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <strong>Price: ${product.price}</strong>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col>Status</Col>
-                <Col>{product.countInStock ? "In Stock" : "Out Of Stock"}</Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item className="mx-auto">
-              <Button
-                className="btn-block"
-                type="button"
-                disabled={product.countInStock === 0}
-              >
-                Add to Cart
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <strong>Price: ${product.price}</strong>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Status</Col>
+                  <Col>
+                    {product.countInStock ? "In Stock" : "Out Of Stock"}
+                  </Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item className="mx-auto">
+                <Button
+                  className="btn-block"
+                  type="button"
+                  disabled={product.countInStock === 0}
+                >
+                  Add to Cart
+                </Button>
+              </ListGroup.Item>
+            </ListGroup>
+          </Card>
         </Col>
       </Row>
     </Fragment>
