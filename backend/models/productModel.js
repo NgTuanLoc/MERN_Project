@@ -41,31 +41,31 @@ const productSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      required,
+      required: true,
     },
     description: {
       type: String,
-      required,
+      required: true,
     },
     reviews: [reviewSchema],
     rating: {
       type: Number,
-      required,
+      required: true,
       default: 0,
     },
     numReviews: {
       type: Number,
-      required,
+      required: true,
       default: 0,
     },
     price: {
       type: Number,
-      required,
+      required: true,
       default: 0,
     },
     countInStock: {
       type: Number,
-      required,
+      required: true,
       default: 0,
     },
   },
@@ -74,4 +74,5 @@ const productSchema = mongoose.Schema(
   }
 );
 
-const Product = mongoose.Model("Product", productSchema);
+const Product = mongoose.model("Product", productSchema, "Products");
+export default Product;
