@@ -27,7 +27,8 @@ router.get(
       const product = await Product.findById(req.params.id);
       res.json(product);
     } catch (error) {
-      res.status(404).json({ message: "404 Error Product Not Found !" });
+      res.status(404);
+      throw new Error("Product Not Found !");
     }
   })
 );
