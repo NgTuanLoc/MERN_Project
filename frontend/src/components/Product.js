@@ -33,6 +33,7 @@ const Product = ({ product }) => {
 
 Rating.defaultProps = {
   color: "# F5C71B",
+  value: 0,
 };
 
 Rating.propTypes = {

@@ -3,7 +3,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import { LinkContainer } from "react-router-bootstrap";
 
-// rafce - react arrow function component export
+
 const Header = () => {
   return (
     <header>
