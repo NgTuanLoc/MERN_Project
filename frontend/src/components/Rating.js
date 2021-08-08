@@ -1,3 +1,5 @@
+import PropsTypes from "prop-types";
+
 const Rating = ({ value, text, color }) => {
   return (
     <div className="rating">
@@ -64,6 +66,17 @@ const Rating = ({ value, text, color }) => {
       <p>{text && text}</p>
     </div>
   );
+};
+
+Rating.defaultProps = {
+  color: "#F5C71B",
+  value: 0,
+};
+
+Rating.propTypes = {
+  text: PropsTypes.string.isRequired,
+  value: PropsTypes.number.isRequired,
+  color: PropsTypes.string,
 };
 
 export default Rating;
