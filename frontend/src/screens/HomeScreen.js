@@ -31,7 +31,7 @@ const HomeScreen = () => {
   return (
     <Container>
       {loading ? (
-        <Loader />
+        <Loader/>
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (

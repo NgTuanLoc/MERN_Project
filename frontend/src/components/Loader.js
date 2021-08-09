@@ -8,11 +8,11 @@ const Loader = () => {
       style={{
         width: "100px",
         height: "100px",
-        margin: "auto",
+        margin: "15rem auto",
         display: "block",
       }}
     >
-        <span className="sr-only">Loading...</span>
+      <span className="sr-only">Loading...</span>
     </Spinner>
   );
 };
