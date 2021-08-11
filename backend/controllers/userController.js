@@ -8,7 +8,8 @@ import generateToken from "../utils/generateToken.js";
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req);
+  console.log(req.body);
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -29,7 +30,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @ROUTE POST /api/users
 // @ACCESS Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+const { name, email, password } = req.body;
   const existedUser = await User.findOne({ email });
 
   if (existedUser) {
