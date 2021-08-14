@@ -24,7 +24,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(removeItemId));
   };
   const checkoutHandler = () => {
-    history.push("/login/?redirect=shipping");
+    history.push("/login?redirect=shipping");
   };
   useEffect(() => {
     if (productId) {
@@ -44,7 +44,7 @@ const CartScreen = ({ match, location, history }) => {
             {cartItems.map((cartItem) => {
               return (
                 <ListGroup.Item key={cartItem.product}>
-                  <Row>
+                  <Row className="d-flex align-items-center">
                     <Col md={2}>
                       <Image
                         src={cartItem.image}
