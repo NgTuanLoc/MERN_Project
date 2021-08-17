@@ -27,7 +27,7 @@ const PlaceOrderScreen = ({ history }) => {
     Number(cart.shippingPrice) +
     Number(cart.tax)
   ).toFixed(2);
-  console.log(order);
+
   useEffect(() => {
     if (success) {
       history.push(`./order/${order._id}`);
@@ -40,7 +40,7 @@ const PlaceOrderScreen = ({ history }) => {
       createOrder({
         orderItems: cartItems,
         shippingAddress: shippingAddress,
-        paymentMethod: "Paypal",
+        paymentMethod: paymentMethod,
         itemsPrice: cart.itemsPrice,
         shippingPrice: cart.shippingPrice,
         tax: cart.tax,
