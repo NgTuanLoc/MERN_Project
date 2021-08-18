@@ -15,22 +15,22 @@ const securedAuth = asyncHandler(async (req, res, next) => {
       next();
     } catch (error) {
       res.status(401);
-      throw new Error("Not Authorize, Token Failed");
+      throw new Error("Not Authorized, Token Failed");
     }
   }
   if (!token) {
     res.status(401);
-    throw new Error("Not Authorize");
+    throw new Error("Not Authorized");
   }
 });
 
-const adminAuth = (req, res, next)=>{
+const adminAuth = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
-    next()
+    next();
   } else {
-    res.status(401)
-    throw new Error("Not Authorized as Admin")
+    res.status(401);
+    throw new Error("Not Authorized as Admin");
   }
-}
+};
 
-export { securedAuth,adminAuth };
+export { securedAuth, adminAuth };
