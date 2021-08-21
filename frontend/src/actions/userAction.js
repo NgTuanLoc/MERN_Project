@@ -177,7 +177,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
-export const listAllUsers = async (dispatch, getState) => {
+export const listAllUsers = () => async (dispatch, getState) => {
   try {
     dispatch({ type: USER_LIST_REQUEST });
     const {
@@ -234,7 +234,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
 export const updateUserByAdmin = (user) => async (dispatch, getState) => {
   try {
-    dispatch({type: USER_UPDATE_REQUEST});
+    dispatch({ type: USER_UPDATE_REQUEST });
     const {
       userLogin: { userInfo },
     } = getState();
@@ -246,7 +246,7 @@ export const updateUserByAdmin = (user) => async (dispatch, getState) => {
     };
 
     await axios.put(`/api/users/${user._id}`, user, config);
-    dispatch({type: USER_UPDATE_SUCCESS});
+    dispatch({ type: USER_UPDATE_SUCCESS });
     const { data } = await axios.get(`/api/users/${user._id}`, config);
 
     dispatch({
