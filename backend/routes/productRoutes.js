@@ -2,16 +2,13 @@ import express from "express";
 import {
   getProducts,
   getProductById,
+  deleteProduct
 } from "../controllers/productController.js";
+import {securedAuth, adminAuth} from '../middleware/authMiddleware.js'
 
 const router = express.Router();
 
 router.route("/").get(getProducts);
-
-// @DESC Fetch Single Product By ID
-// @ROUTE Get /api/products:id
-// @ACCESS Public
-
-router.route("/:id").get(getProductById);
+router.route("/:id").get(getProductById).delete(securedAuth, adminAuth, deleteProduct);
 
 export default router;

@@ -8,39 +8,44 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getUserDetails, updateUserProfile } from "../actions/userAction";
 import { listOrders } from "../actions/orderActions";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
 const ProfileScreen = ({ history }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-
   const [confirmPassword, setConfirmPasswod] = useState("");
+  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
+
   const userDetails = useSelector((state) => state.userDetails);
-  const userLogin = useSelector((state) => state.userLogin);
-  const userUpdate = useSelector((state) => state.userUpdate);
-  const { userInfo } = userLogin;
   const { loading, user, error } = userDetails;
-  const { sucess } = userUpdate;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const { success } = userUpdate;
 
   const orderListUser = useSelector((state) => state.orderListUser);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListUser;
 
+
   useEffect(() => {
     if (!userInfo) {
-      history.push("./login");
+      history.push("/login");
     } else {
-      if (!user.name) {
+      if (!user || !user.name || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
-        dispatch(listOrders);
-      } else {
+        dispatch(listOrders());
+      } else if (!name) {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, user, userInfo, history]);
+  }, [dispatch, user, userInfo, history, success, name]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -57,13 +62,13 @@ const ProfileScreen = ({ history }) => {
         <h1>User Profile</h1>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {sucess && <Message variant="success">Updated User Profile</Message>}
+        {success && <Message variant="success">Updated User Profile</Message>}
         {loading && <Loader />}
         <Form onSubmit={onSubmitHandler}>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              type="text"
+              type="name"
               placeholder="Username"
               value={name}
               onChange={(e) => setName(e.target.value)}

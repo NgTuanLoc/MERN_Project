@@ -86,10 +86,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     if (req.body.password) {
-      user.password = req.body.password || user.password;
+      user.password = req.body.password 
     }
     const updatedUser = await user.save();
-    res.status(201).json({
+    res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,

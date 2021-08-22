@@ -26,12 +26,12 @@ const HomeScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(listProducts);
+    dispatch(listProducts());
   }, [dispatch]);
   return (
     <Container>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (

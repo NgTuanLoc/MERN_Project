@@ -107,7 +107,7 @@ export const orderPay =
     }
   };
 
-export const listOrders = async (dispatch, getState) => {
+export const listOrders = () => async (dispatch, getState) => {
   try {
     dispatch({ type: ORDER_LIST_USER_REQUEST });
     const {
