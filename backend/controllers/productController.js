@@ -32,7 +32,7 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 // @DESC Delete Product By Id
-// @ROUTE /api/admin/product/:id
+// @ROUTE /api/product/:id
 // @ACCESS Private/admin
 const deleteProduct = asyncHandler(async (req, res) => {
   try {
@@ -47,4 +47,74 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, deleteProduct };
+// @DESC Create product
+// @ROUTE POST /api/products
+// @ACCESS Private/admin
+const createProduct = asyncHandler(async (req, res) => {
+  try {
+    const product = new Product({
+      name: "Sample Product",
+      price: 0,
+      user: req.user._id,
+      image: "/image/sample.jpg",
+      brand: "Sample Brand",
+      category: "Sample Category",
+      countInStock: 0,
+      numReviews: 0,
+      description: "Sample Description",
+    });
+
+    const createdProduct = await product.save();
+    res.status(201).json(createdProduct);
+  } catch (error) {
+    res.status(401);
+    res.json(error);
+  }
+});
+
+// @DESC Update Product
+// @ROUTE PUT /api/products/:id
+// @ACCESS Private/admin
+const updateProduct = asyncHandler(async (req, res) => {
+  try {
+    const {
+      name,
+      price,
+      image,
+      brand,
+      category,
+      countInStock,
+      numReviews,
+      description,
+    } = req.body;
+
+    console.log(req.body);
+    console.log(price);
+
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+      product.name = name;
+      product.price = price;
+      product.image = image;
+      product.brand = brand;
+      product.category = category;
+      product.countInStock = countInStock;
+      product.numReviews = numReviews;
+      product.description = description;
+    }
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(401);
+    res.json(error);
+  }
+});
+
+export {
+  getProducts,
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+};
