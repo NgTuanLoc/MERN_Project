@@ -88,8 +88,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       description,
     } = req.body;
 
-    console.log(req.body);
-    console.log(price);
+    
 
     const product = await Product.findById(req.params.id);
 
