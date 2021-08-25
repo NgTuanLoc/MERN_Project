@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PayPalButton } from "react-paypal-button-v2";
@@ -8,10 +8,17 @@ import { PayPalButton } from "react-paypal-button-v2";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-import { getOrderDetails, orderPay } from "../actions/orderActions";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+  getOrderDetails,
+  orderPay,
+  deliveryOrder,
+} from "../actions/orderActions";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVERY_RESET,
+} from "../constants/orderConstants";
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const [sdkReady, setSdkReady] = useState(false);
   const orderId = match.params.id;
 
@@ -22,6 +29,12 @@ const OrderScreen = ({ match }) => {
 
   const orderPayment = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPayment;
+
+  const orderDelivery = useSelector((state) => state.orderDelivery);
+  const { loading: loadingDelivery, success: successDelivery } = orderDelivery;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const addDecimals = (num) => {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -47,8 +60,9 @@ const OrderScreen = ({ match }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDelivery || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVERY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -57,10 +71,14 @@ const OrderScreen = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [orderId, dispatch, order, successPay]);
+  }, [orderId, dispatch, order, successPay, successDelivery]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(orderPay(orderId, paymentResult));
+  };
+
+  const deliveryHandler = () => {
+    dispatch(deliveryOrder(order));
   };
 
   return loading ? (
@@ -189,6 +207,21 @@ const OrderScreen = ({ match }) => {
                   )}
                 </ListGroup>
               )}
+              {loadingDelivery && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item className="d-flex justify-content-center">
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliveryHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

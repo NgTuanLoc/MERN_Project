@@ -14,6 +14,9 @@ import {
   ORDER_LIST_ALL_REQUEST,
   ORDER_LIST_ALL_SUCCESS,
   ORDER_LIST_ALL_FAIL,
+  ORDER_DELIVERY_REQUEST,
+  ORDER_DELIVERY_SUCCESS,
+  ORDER_DELIVERY_FAIL,
 } from "../constants/orderConstants";
 import axios from "axios";
 
@@ -109,6 +112,43 @@ export const orderPay =
       });
     }
   };
+
+export const deliveryOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_DELIVERY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/orders/${order._id}/delivery`,
+      {},
+      config
+    );
+
+    dispatch({
+      type: ORDER_DELIVERY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: { ORDER_DELIVERY_FAIL },
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const listOrders = () => async (dispatch, getState) => {
   try {

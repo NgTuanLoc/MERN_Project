@@ -27,7 +27,6 @@ const OrderListScreen = ({ history }) => {
   }, [dispatch, history, userInfo]);
 
   
-  };
   return (
     (
       <Fragment>
