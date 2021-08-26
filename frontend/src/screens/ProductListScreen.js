@@ -47,7 +47,7 @@ const ProductListScreen = ({ history, match }) => {
     if (successCreate) {
       history.push(`admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts('', pageNumber));
+      dispatch(listProducts("", pageNumber));
     }
   }, [
     dispatch,
@@ -55,7 +55,8 @@ const ProductListScreen = ({ history, match }) => {
     userInfo,
     successDelete,
     successCreate,
-    createdProduct, pageNumber
+    createdProduct,
+    pageNumber,
   ]);
 
   const deleteHandler = (id) => {
@@ -125,7 +126,7 @@ const ProductListScreen = ({ history, match }) => {
           </tbody>
         </Table>
       )}
-      <Paginate pages={pages} page={page} isAdmin/>
+      <Paginate pages={pages} page={page} isAdmin />
     </Fragment>
   );
 };

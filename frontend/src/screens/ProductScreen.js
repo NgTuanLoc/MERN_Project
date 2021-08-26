@@ -16,7 +16,9 @@ import { listProductDetails } from "../actions/productActions";
 import { createProductReview } from "../actions/productActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { PRODDUCT_REVIEW_CREATE_RESET } from "../constants/productConstants";
+import { PRODUCT_REVIEW_CREATE_RESET } from "../constants/productConstants";
+import Meta from "../components/Meta";
+
 
 const ProductScreen = ({ history, match }) => {
   const [productQuantity, setProductQuantity] = useState(1);
@@ -44,7 +46,7 @@ const ProductScreen = ({ history, match }) => {
     }
     if (!product._id || product._id !== match.params.id) {
       dispatch(listProductDetails(match.params.id));
-      dispatch({ type: PRODDUCT_REVIEW_CREATE_RESET });
+      dispatch({ type: PRODUCT_REVIEW_CREATE_RESET });
     }
   }, [dispatch, match, successProductReview, product._id]);
 
@@ -64,6 +66,7 @@ const ProductScreen = ({ history, match }) => {
 
   const productDetailsContent = (
     <Fragment>
+      <Meta title={product.name}/>
       <Row>
         <Col md={6}>
           <Image src={product.image} alt={product.brand} fluid />
