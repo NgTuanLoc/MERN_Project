@@ -11,11 +11,13 @@ import {
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Paginate from "../components/Paginate";
 
-const ProductListScreen = ({ history }) => {
+const ProductListScreen = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
-  const { loading, products, error } = productList;
+  const { loading, products, error, page, pages } = productList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,7 +34,7 @@ const ProductListScreen = ({ history }) => {
     loading: loadingCreate,
     success: successCreate,
     error: errorCreate,
-    product: createdProduct
+    product: createdProduct,
   } = productCreate;
 
   useEffect(() => {
@@ -45,9 +47,16 @@ const ProductListScreen = ({ history }) => {
     if (successCreate) {
       history.push(`admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
-  }, [dispatch, history, userInfo, successDelete, successCreate, createdProduct]);
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successDelete,
+    successCreate,
+    createdProduct, pageNumber
+  ]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Did you want to delete this Product ?")) {
@@ -116,6 +125,7 @@ const ProductListScreen = ({ history }) => {
           </tbody>
         </Table>
       )}
+      <Paginate pages={pages} page={page} isAdmin/>
     </Fragment>
   );
 };

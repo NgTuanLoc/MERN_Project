@@ -22,11 +22,15 @@ import {
 import { logout } from "./userActions";
 
 export const listProducts =
-  (keyword = "") =>
+  (keyword = "", pageNumber = "") =>
   async (dispatch) => {
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
-      const { data } = await axios.get(`/api/products?keyword=${keyword }`);
+
+      const { data } = await axios.get(
+        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
+
       dispatch({
         type: PRODUCT_LIST_SUCCESS,
         payload: data,
@@ -41,7 +45,6 @@ export const listProducts =
       });
     }
   };
-
 export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
