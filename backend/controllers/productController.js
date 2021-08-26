@@ -6,9 +6,16 @@ import asyncHandler from "express-async-handler";
 // @ACCESS Public
 const getProducts = asyncHandler(
   asyncHandler(async (req, res) => {
-    const products = await Product.find({});
-    // res.status(401);
-    // throw new Error("Not Authorized");
+    const keyword = req.query.keyword
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i",
+          },
+        }
+      : {};
+    const products = await Product.find({...keyword});
+
     res.json(products);
   })
 );
