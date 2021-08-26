@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getUserDetails, updateUserProfile } from "../actions/userAction";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { listOrders } from "../actions/orderActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
@@ -30,7 +30,6 @@ const ProfileScreen = ({ history }) => {
 
   const orderListUser = useSelector((state) => state.orderListUser);
   const { loading: loadingOrders, error: errorOrders, orders } = orderListUser;
-
 
   useEffect(() => {
     if (!userInfo) {

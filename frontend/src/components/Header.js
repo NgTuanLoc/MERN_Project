@@ -4,7 +4,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { logout } from "../actions/userAction";
+import { logout } from "../actions/userActions";
 import { useHistory } from "react-router-dom";
 
 const Header = () => {
@@ -37,7 +37,7 @@ const Header = () => {
                   Cart
                 </Nav.Link>
               </LinkContainer>
-              {userInfo  ? (
+              {userInfo ? (
                 <NavDropdown title={userInfo.name}>
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>

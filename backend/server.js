@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
+import morgan from "morgan";
 
 import connectMongoDB from "./config/config.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -14,6 +15,9 @@ import { notFound, errorHandler } from "./middleware/erorrMiddleware.js";
 dotenv.config();
 connectMongoDB();
 const app = express();
+if (process.env.NODE_ENV === "developement") {
+  app.use(morgan("dev"));
+}
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());

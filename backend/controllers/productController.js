@@ -88,8 +88,6 @@ const updateProduct = asyncHandler(async (req, res) => {
       description,
     } = req.body;
 
-    
-
     const product = await Product.findById(req.params.id);
 
     if (product) {
@@ -110,10 +108,50 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
+// @DESC Create New User Review
+// @ROUTE POST /api/products/:id/reviews
+// @ACCESS Private
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    console.log(req.user._id.toString());
+    const aldreadyReview = product.reviews.find(
+      (review) => review.user.toString() === req.user._id.toString()
+    );
+    console.log(aldreadyReview);
+    if (aldreadyReview) {
+      res.status(400);
+      throw new Error("Product aldready reviewed");
+    }
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(review);
+
+    product.numReviews += 1;
+
+    product.rating =
+      product.reviews.reduce((acc, review) => review.rating + acc, 0) /
+      product.reviews.length;
+    await product.save();
+    res.json({ message: "Review is sent !" });
+  } else {
+    res.status(404);
+    throw new Error("Product Not Found !");
+  }
+});
+
 export {
   getProducts,
   getProductById,
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 };

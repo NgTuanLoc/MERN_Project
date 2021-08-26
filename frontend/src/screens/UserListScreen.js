@@ -3,7 +3,7 @@ import { Table, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import { listAllUsers, deleteUser } from "../actions/userAction";
+import { listAllUsers, deleteUser } from "../actions/userActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
