@@ -45,7 +45,7 @@ const ProductListScreen = ({ history, match }) => {
       history.push("/login");
     }
     if (successCreate) {
-      history.push(`admin/product/${createdProduct._id}/edit`);
+      history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
       dispatch(listProducts("", pageNumber));
     }
@@ -76,7 +76,7 @@ const ProductListScreen = ({ history, match }) => {
         </Col>
         <Col className="text-end">
           <Button className="my-3" onClick={createProductHandler}>
-            <i className="fas fa-plus"></i> Create Product
+            <i className="fas fa-plus"/> Create Product
           </Button>
         </Col>
       </Row>
