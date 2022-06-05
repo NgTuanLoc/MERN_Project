@@ -15,7 +15,8 @@ import { notFound, errorHandler } from "./middleware/erorrMiddleware.js";
 dotenv.config();
 connectMongoDB();
 const app = express();
-if (process.env.NODE_ENV === "developement") {
+
+if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 const PORT = process.env.PORT || 5000;

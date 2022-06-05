@@ -140,14 +140,14 @@ export const orderListAllReducer = (state = { orders: [] }, action) => {
   }
 };
 
-export const orderDeliveryReducer = (state= {}, action) => {
-  switch (action.payload) {
+export const orderDeliveryReducer = (state = {}, action) => {
+  switch (action.type) {
     case ORDER_DELIVERY_REQUEST:
       return { loading: true };
     case ORDER_DELIVERY_SUCCESS:
       return { loading: false, success: true };
     case ORDER_DELIVERY_FAIL:
-      return { loading: false, error: false };
+      return { loading: false, error: action.payload };
     case ORDER_DELIVERY_RESET:
       return {};
 
